@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dla Natalki 🌸</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffe6fa 0%, #ffcbe6 100%);
+            font-family: 'Nunito', sans-serif;
+            text-align: center;
+            overflow: hidden;
+            color: #5c3a58;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(225, 140, 180, 0.3);
+            max-width: 90%;
+            width: 400px;
+            z-index: 10;
+            position: relative;
+            transition: all 0.5s ease-in-out;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #d63384;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #ff66b2;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 102, 178, 0.4);
+            transition: transform 0.2s, background-color 0.2s;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        button:hover {
+            background-color: #ff4d99;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        /* Sekcje */
+        #screen2 {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+        }
+
+        /* Animowane tło (spadające elementy) */
+        .falling-item {
+            position: absolute;
+            top: -50px;
+            font-size: 24px;
+            user-select: none;
+            pointer-events: none;
+            animation: fall linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="screen1">
+        <h1>Spóźnione życzenia na Dzień Kobiet dla Natalki 🌸</h1>
+        <button id="btn-forgive">Kliknij, jeśli wybaczasz spóźnienie 😅</button>
+    </div>
+
+    <div class="container" id="screen2">
+        <p>Wiem, że Dzień Kobiet był 8 marca… a ja trochę zawaliłem sprawę 😅</p>
+        <p>Ale pomyślałem, że zwykłe <i>„wszystkiego najlepszego”</i> to za mało.</p>
+        <p>Więc zrobiłem tę małą stronę specjalnie dla Ciebie.</p>
+        <p><b>Życzę Ci, żebyś zawsze uśmiechała się tak dużo jak podczas naszych rozmów i żeby każdy Twój dzień był trochę bardziej wyjątkowy 🌸</b></p>
+        <button id="btn-smile">Wyślij uśmiech Natalii ❤️</button>
+    </div>
+
+    <script>
+        // Przejście między ekranami
+        document.getElementById('btn-forgive').addEventListener('click', function() {
+            const screen1 = document.getElementById('screen1');
+            const screen2 = document.getElementById('screen2');
+
+            screen1.style.display = 'none';
+            screen2.style.display = 'block';
+            
+            // Prosty efekt płynnego pojawiania
+            setTimeout(() => {
+                screen2.style.opacity = '1';
+            }, 50);
+
+            startFallingItems();
+        });
+
+        // Przycisk wysyłający uśmiech
+        document.getElementById('btn-smile').addEventListener('click', function() {
+            alert("Uśmiech został pomyślnie wysłany! 😊 Oczekuj go na swoim telefonie.");
+            // Dodatkowa salwa serduszek
+            for(let i=0; i<20; i++) {
+                setTimeout(createFallingItem, i * 100);
+            }
+        });
+
+        // Generator spadających serduszek i kwiatków
+        const items = ['🌸', '❤️', '✨', '💖', '🌺'];
+
+        function createFallingItem() {
+            const el = document.createElement('div');
+            el.classList.add('falling-item');
+            el.innerText = items[Math.floor(Math.random() * items.length)];
+            
+            // Losowa pozycja startowa na szerokości
+            el.style.left = Math.random() * 100 + 'vw';
+            
+            // Losowy czas opadania (od 3s do 6s)
+            const duration = Math.random() * 3 + 3;
+            el.style.animationDuration = duration + 's';
+            
+            // Losowy rozmiar
+            el.style.fontSize = (Math.random() * 20 + 15) + 'px';
+
+            document.body.appendChild(el);
+
+            // Usunięcie elementu po zakończeniu animacji, żeby nie obciążać przeglądarki
+            setTimeout(() => {
+                el.remove();
+            }, duration * 1000);
+        }
+
+        // Uruchomienie deszczu emotek co określony czas
+        let interval;
+        function startFallingItems() {
+            interval = setInterval(createFallingItem, 400);
+        }
+    </script>
+</body>
+</html>
